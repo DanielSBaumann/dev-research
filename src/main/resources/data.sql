@@ -1,0 +1,92 @@
+INSERT INTO categorias(id,categoria)
+VALUES
+(1,'JR'),
+(2,'SR'),
+(3,'RH');
+
+INSERT INTO questoes(id,enunciado,id_categoria)
+VALUES
+(1,'questao 1 jr',1),
+(2,'questao 2 jr',1),
+(3,'questao 3 jr',1),
+(4,'questao 4 jr',1),
+(5,'questao 5 jr',1),
+
+(6,'questao 1 sr',2),
+(7,'questao 2 sr',2),
+(8,'questao 3 sr',2),
+(9,'questao 4 sr',2),
+(10,'questao 5 sr',2),
+
+(11,'questao 1 rh',3),
+(12,'questao 2 rh',3),
+(13,'questao 3 rh',3),
+(14,'questao 4 rh',3),
+(15,'questao 5 rh',3);
+
+INSERT INTO respostas(id,resposta,id_questao)
+VALUES
+
+(1,'resposta 1 - questao 1 jr',1),
+(2,'resposta 2 - questao 1 jr',1),
+(3,'resposta 3 - questao 1 jr',1),
+(4,'resposta 4 - questao 1 jr',1),
+(5,'resposta 1 - questao 2 jr',2),
+(6,'resposta 2 - questao 2 jr',2),
+(7,'resposta 3 - questao 2 jr',2),
+(8,'resposta 4 - questao 2 jr',2),
+(9,'resposta 1 - questao 3 jr',3),
+(10,'resposta 2 - questao 3 jr',3),
+(11,'resposta 3 - questao 3 jr',3),
+(12,'resposta 4 - questao 3 jr',3),
+(13,'resposta 1 - questao 4 jr',4),
+(14,'resposta 2 - questao 4 jr',4),
+(15,'resposta 3 - questao 4 jr',4),
+(16,'resposta 4 - questao 4 jr',4),
+(17,'resposta 1 - questao 5 jr',5),
+(18,'resposta 2 - questao 5 jr',5),
+(19,'resposta 3 - questao 5 jr',5),
+(20,'resposta 4 - questao 5 jr',5),
+
+(21,'resposta 1 - questao 1 sr',6),
+(22,'resposta 2 - questao 1 sr',6),
+(23,'resposta 3 - questao 1 sr',6),
+(24,'resposta 4 - questao 1 sr',6),
+(25,'resposta 1 - questao 2 sr',7),
+(26,'resposta 2 - questao 2 sr',7),
+(27,'resposta 3 - questao 2 sr',7),
+(28,'resposta 4 - questao 2 sr',7),
+(29,'resposta 1 - questao 3 sr',8),
+(30,'resposta 2 - questao 3 sr',8),
+(31,'resposta 3 - questao 3 sr',8),
+(32,'resposta 4 - questao 3 sr',8),
+(33,'resposta 1 - questao 4 sr',9),
+(34,'resposta 2 - questao 4 sr',9),
+(35,'resposta 3 - questao 4 sr',9),
+(36,'resposta 4 - questao 4 sr',9),
+(37,'resposta 1 - questao 5 sr',10),
+(38,'resposta 2 - questao 5 sr',10),
+(39,'resposta 3 - questao 5 sr',10),
+(40,'resposta 4 - questao 5 sr',10),
+
+(41,'resposta 1 - questao 1 rh',11),
+(42,'resposta 2 - questao 1 rh',11),
+(43,'resposta 3 - questao 1 rh',11),
+(44,'resposta 4 - questao 1 rh',11),
+(45,'resposta 1 - questao 2 rh',12),
+(46,'resposta 2 - questao 2 rh',12),
+(47,'resposta 3 - questao 2 rh',12),
+(48,'resposta 4 - questao 2 rh',12),
+(49,'resposta 1 - questao 3 rh',13),
+(50,'resposta 2 - questao 3 rh',13),
+(51,'resposta 3 - questao 3 rh',13),
+(52,'resposta 4 - questao 3 rh',13),
+(53,'resposta 1 - questao 4 rh',14),
+(54,'resposta 2 - questao 4 rh',14),
+(55,'resposta 3 - questao 4 rh',14),
+(56,'resposta 4 - questao 4 rh',14),
+(57,'resposta 1 - questao 5 rh',15),
+(58,'resposta 2 - questao 5 rh',15),
+(59,'resposta 3 - questao 5 rh',15),
+(60,'resposta 4 - questao 5 rh',15);
+

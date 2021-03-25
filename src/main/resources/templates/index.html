@@ -1,0 +1,60 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment :: head('Home')}"></head>
+
+<body>
+
+    <header th:replace="~{fragment :: header}"></header>
+
+    <div class="container mt-3">
+        <div class="container mt-3">
+            <h1>Pesquisa Dev's!</h1>
+            <p>Pensando em entender as necessidades dos dev's iniciantes como eu, dos mais experientes , e dos Tech
+                Recruiter's criei este pequeno formulário</p>
+            <img src="https://image.freepik.com/free-vector/businessman-is-thinking-idea-illustration_39663-280.jpg"
+                alt="thinking man" style="max-width: 40%; float:left;">
+        </div>
+        <div class="container mt-3">
+            <h2>Como funciona?</h2>
+            <p>Ao clickar em "iniciar" logo abaixo, faça um pequeno cadastro com seu nome, seu tipo de perfil(dev
+                iniciante,
+                deve mais experiente ou recruiter) e email, e na sequencia já responda cinco perguntas de multipla
+                escolha
+                dentre as que se identifique mais</p>
+            <img src="https://image.freepik.com/free-vector/business-team-putting-together-jigsaw-puzzle-isolated-flat-vector-illustration-cartoon-partners-working-connection-teamwork-partnership-cooperation-concept_74855-9814.jpg"
+                alt="working together" style="max-width: 30%; float:right;">
+        </div>
+        <div class="container mt-3">
+            <h3>E depois?</h3>
+            <p>Após a pesquisa será exibido uma imagem gráfica com os resultados das pesquisas até aqui, de acordo
+                com a
+                preferencia das pessoas que responderam, e você receberá uma cópia dos resultados em seu email, por
+                isso
+                se
+                certifique de utilizar seu melhor email!</p>
+            <img src="https://image.freepik.com/free-vector/connect-jigsaw-pieces-into-shape-light-bulb_1150-35036.jpg"
+                alt="idea" style="max-width: 30%; float:right;">
+        </div>
+        <div class="container mt-3">
+            <h3>Bora lá?</h3>
+            <button type="button" 
+                class="btn btn-primary btn-lg"
+                th:onclick='window.location.href="/usuario/new"'>
+                Começar
+            </button>
+        </div>
+    </div>
+
+    <div class="container mt-5" style="font-size: .8em;">
+        <p class="card-text">Devloped by <a href="https://github.com/DanielSBaumann">Daniel Baumann</a></p>
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
