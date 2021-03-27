@@ -7,12 +7,14 @@ import com.devresearch.devresearch.repository.Pesquisas;
 import com.devresearch.devresearch.repository.Usuarios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -49,13 +51,39 @@ public class QuestionarioController {
         } else {
             System.out.println("usuario não cadastrado");
         }
-        return new ModelAndView("questionario");
+        ModelAndView mv = new ModelAndView("questionario");
+        mv.addObject("idUsuario", id);
+        return mv;
     }
 
     @PostMapping
-    public ModelAndView create(PesquisaDTO pesquisaDTO) {
-        System.out.println("Testando pesquisa!");
-        System.out.println(pesquisaDTO.toString());
-        return new ModelAndView("redirect:/");
+    public ModelAndView create(@Valid PesquisaDTO pesquisaDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println("COM ERRO\n" + pesquisaDTO.toString());
+            return new ModelAndView("redirect:/questionario/" + pesquisaDTO.getIdUsuario());
+        } else {
+            System.out.println("Testando pesquisa!");
+            System.out.println(pesquisaDTO.toString());
+
+            Usuario usuario = usuarioRepository
+                    .findById(pesquisaDTO.getIdUsuario())
+                    .get();
+
+            Pesquisa pesquisa = Pesquisa
+                    .builder()
+                    .usuario(usuario)
+                    .resposta1(pesquisaDTO.getResposta1())
+                    .resposta2(pesquisaDTO.getResposta2())
+                    .resposta3(pesquisaDTO.getResposta3())
+                    .resposta4(pesquisaDTO.getResposta4())
+                    .resposta5(pesquisaDTO.getResposta5())
+                    .build();
+
+            Pesquisa newPesquisa = pesquisaRepository.save(pesquisa);
+
+            System.out.println(newPesquisa.toString());
+
+            return new ModelAndView("redirect:/resultado");
+        }
     }
 }

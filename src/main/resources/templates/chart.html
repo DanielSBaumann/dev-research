@@ -1,0 +1,74 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment :: head('Home')}"></head>
+
+<body>
+
+    <header th:replace="~{fragment :: header}"></header>
+
+    <div id="chart-usuarios">
+        <input 
+            type="hidden" 
+            id="ch-user"
+            th:field="*{idUser}">
+    </div>
+
+    <div class="container mt-5" style="font-size: .8em;">
+        <p class="card-text">Devloped by <a href="https://github.com/DanielSBaumann">Daniel Baumann</a></p>
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+    
+            google.charts.load('current', { 'packages': ['corechart'] });
+    
+            google.charts.setOnLoadCallback(drawChart);
+    
+            function drawChart() {
+                const container = document.querySelector('#chart-usuarios')
+                /**
+                const container = document.querySelector('#chart')
+                const data = new google.visualization.arrayToDataTable([
+                    ['Localidade', 'Entrevistados'],
+                    ['Praia', 10000],
+                    ['Cachoeira', 9000],
+                    ['Serra', 8000],
+                    ['Fazenda', 5000]
+                ])
+                const options = {
+                    title: 'Vc prefere viajar para qual tipo de localidade?',
+                    height: 400,
+                    width: 400
+                }
+                const chart = new google.visualization.PieChart(container)
+                chart.draw(data, options)
+                */
+            }
+    
+        </script>
+    <!--JQUERY-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/contador',
+                type: 'POST',
+                success: function (responseText) {
+                    $("#contador-pesquisas").val(responseText);
+                },
+                error: function () {
+                    console.log('falha ao utilizar contador');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
