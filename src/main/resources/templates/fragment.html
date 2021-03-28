@@ -25,7 +25,10 @@
                     th:classappend="${#httpServletRequest.getRequestURI().equals('/usuario/new')?'active':''}">Pesquisa</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Resultado</a>
+                <a 
+                    class="nav-link" 
+                    href="/resultado"
+                    th:classappend="${#httpServletRequest.getRequestURI().equals('/resultado')?'active':''}">Resultado</a>
             </li>
             <li style="margin-left: 20%;font-size: .8em;" class="nav-item">
                 <a style="text-decoration:none;" href="#">Pesquisas realizadas 

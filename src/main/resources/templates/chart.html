@@ -7,50 +7,14 @@
 
     <header th:replace="~{fragment :: header}"></header>
 
-    <div id="chart-usuarios">
-        <input 
-            type="hidden" 
-            id="ch-user"
-            th:field="*{idUser}">
-    </div>
+    <div 
+        id="chart-usuarios" 
+        style="width: 94%; height: 30vh;margin: 4vh auto;border: solid 1px #ccc;"></div>
 
     <div class="container mt-5" style="font-size: .8em;">
         <p class="card-text">Devloped by <a href="https://github.com/DanielSBaumann">Daniel Baumann</a></p>
     </div>
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-        crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-    
-            google.charts.load('current', { 'packages': ['corechart'] });
-    
-            google.charts.setOnLoadCallback(drawChart);
-    
-            function drawChart() {
-                const container = document.querySelector('#chart-usuarios')
-                /**
-                const container = document.querySelector('#chart')
-                const data = new google.visualization.arrayToDataTable([
-                    ['Localidade', 'Entrevistados'],
-                    ['Praia', 10000],
-                    ['Cachoeira', 9000],
-                    ['Serra', 8000],
-                    ['Fazenda', 5000]
-                ])
-                const options = {
-                    title: 'Vc prefere viajar para qual tipo de localidade?',
-                    height: 400,
-                    width: 400
-                }
-                const chart = new google.visualization.PieChart(container)
-                chart.draw(data, options)
-                */
-            }
-    
-        </script>
     <!--JQUERY-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -67,6 +31,65 @@
                 }
             });
         });
+    </script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        let categoria;
+        $.ajax({
+            url: '/qtdporcategoria',
+            type: 'POST',
+            success: function (responseText) {
+                categoria = JSON.parse(responseText)
+            },
+            error: function () {
+            }
+        });
+
+        google
+            .charts
+            .load('current', { 'packages': ['corechart'] })
+            .then(drawChart);
+
+        //google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            const container = document.querySelector('#chart-usuarios')
+            const data = new google.visualization.arrayToDataTable([
+                ['Categoria', 'Quantidade'],
+                [categoria[0].categoria, categoria[0].qtd],
+                [categoria[1].categoria, categoria[1].qtd],
+                [categoria[2].categoria, categoria[2].qtd]
+            ])
+            const options = {
+                title: 'Categorias da pesquisa'
+            }
+            const chart = new google.visualization.PieChart(container)
+            chart.draw(data, options)
+        }
+
+        /**
+         * const options = {
+                title: 'Categorias da pesquisa',
+                height: 400,
+                width: 400
+            }
+         * 
+         * para mais de um grafico
+         * google.charts.setOnLoadCallback(drawChart1);
+           google.charts.setOnLoadCallback(drawChart2);
+        // OR
+           google.charts.setOnLoadCallback(
+               function() { // Anonymous function that calls drawChart1 and drawChart2
+                   drawChart1();
+                   drawChart2();
+           });
+         */ 
+
     </script>
 
 </body>

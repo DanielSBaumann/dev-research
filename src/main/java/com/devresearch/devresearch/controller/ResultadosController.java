@@ -11,6 +11,6 @@ public class ResultadosController {
 
     @GetMapping
     public ModelAndView show() {
-        return null;
+        return new ModelAndView("chart");
     }
 }

@@ -40,4 +40,8 @@ public class Pesquisa {
     @ManyToOne(optional = true)
     @JoinColumn(name = "id_usuario", nullable = true, foreignKey = @ForeignKey(name = "fk_id_usuario"))
     private Usuario usuario;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "id_categoria", nullable = true, foreignKey = @ForeignKey(name = "fk_id_categoria"))
+    private Categoria categoria;
 }
