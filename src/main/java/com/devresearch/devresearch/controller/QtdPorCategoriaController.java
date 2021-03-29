@@ -1,6 +1,6 @@
 package com.devresearch.devresearch.controller;
 
-import com.devresearch.devresearch.dto.QtdPorCategoria;
+import com.devresearch.devresearch.dto.QtdPorCategoriaChart;
 import com.devresearch.devresearch.repository.Categorias;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,9 @@ public class QtdPorCategoriaController {
     public ResponseEntity<?> contador() {
         try {
             List<Object[]> list = categoriaRepository.qtdPorCategoria();
-            List<QtdPorCategoria> qtdPorCategorias = new ArrayList<>();
+            List<QtdPorCategoriaChart> qtdPorCategorias = new ArrayList<>();
             for (Object[] obj : list) {
-                QtdPorCategoria cat = QtdPorCategoria
+                QtdPorCategoriaChart cat = QtdPorCategoriaChart
                         .builder()
                         .categoria((String) obj[0])
                         .qtd(new Integer(obj[1].toString()))

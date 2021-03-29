@@ -1,6 +1,5 @@
 package com.devresearch.devresearch.entity;
 
-import com.devresearch.devresearch.enums.RespostaPesquisa;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,20 +21,20 @@ public class Pesquisa {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
-    private RespostaPesquisa resposta1;
+    @Column(name = "resposta1", nullable = false, length = 200)
+    private String resposta1;
 
-    @Enumerated(EnumType.STRING)
-    private RespostaPesquisa resposta2;
+    @Column(name = "resposta2", nullable = false, length = 200)
+    private String resposta2;
 
-    @Enumerated(EnumType.STRING)
-    private RespostaPesquisa resposta3;
+    @Column(name = "resposta3", nullable = false, length = 200)
+    private String resposta3;
 
-    @Enumerated(EnumType.STRING)
-    private RespostaPesquisa resposta4;
+    @Column(name = "resposta4", nullable = false, length = 200)
+    private String resposta4;
 
-    @Enumerated(EnumType.STRING)
-    private RespostaPesquisa resposta5;
+    @Column(name = "resposta5", nullable = false, length = 200)
+    private String resposta5;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "id_usuario", nullable = true, foreignKey = @ForeignKey(name = "fk_id_usuario"))

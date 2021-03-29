@@ -1,10 +1,14 @@
 package com.devresearch.devresearch.controller;
 
 import com.devresearch.devresearch.dto.PesquisaDTO;
+import com.devresearch.devresearch.entity.Categoria;
 import com.devresearch.devresearch.entity.Pesquisa;
 import com.devresearch.devresearch.entity.Usuario;
+import com.devresearch.devresearch.repository.Categorias;
 import com.devresearch.devresearch.repository.Pesquisas;
+import com.devresearch.devresearch.repository.Questoes;
 import com.devresearch.devresearch.repository.Usuarios;
+import com.devresearch.devresearch.service.RespostasPorQuestaoCategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,9 +27,18 @@ public class QuestionarioController {
 
     @Autowired
     private Usuarios usuarioRepository;
-
+    @Autowired
+    private Categorias categoriaRepository;
     @Autowired
     private Pesquisas pesquisaRepository;
+    @Autowired
+    private Questoes questoesRepository;
+
+    private RespostasPorQuestaoCategoriaService service;
+
+    public QuestionarioController(RespostasPorQuestaoCategoriaService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ModelAndView redirect() {
@@ -34,26 +47,22 @@ public class QuestionarioController {
 
     @GetMapping("/{id}")
     public ModelAndView questionario(@PathVariable Integer id) {
-        System.out.println("Id usuario que fara a pesquisa -> " + id);
 
-        //verificar se ja existe o usuario
-        //verificar se não existe pesquisa do mesmo usuario
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         Optional<Pesquisa> optionalPesquisa = pesquisaRepository.findByUsuarioId(id);
 
         if (optionalUsuario.isPresent()) {
-            System.out.println("usuario no data base");
             if (optionalPesquisa.isPresent()) {
-                System.out.println("Pesquisa do usuario no data base");
+                return new ModelAndView("index");
             } else {
-                System.out.println("Usuario ainda não fez pesquisa");
+
+                ModelAndView mv = new ModelAndView("questionario");
+                mv.addObject("idUsuario", id);
+                return mv;
             }
         } else {
-            System.out.println("usuario não cadastrado");
+            return new ModelAndView("redirect:/usuario/new");
         }
-        ModelAndView mv = new ModelAndView("questionario");
-        mv.addObject("idUsuario", id);
-        return mv;
     }
 
     @PostMapping
@@ -69,9 +78,18 @@ public class QuestionarioController {
                     .findById(pesquisaDTO.getIdUsuario())
                     .get();
 
+
+            Categoria categoria = categoriaRepository
+                    .findById(usuario
+                            .getCategoria()
+                            .getId())
+                    .get();
+
+
             Pesquisa pesquisa = Pesquisa
                     .builder()
                     .usuario(usuario)
+                    .categoria(categoria)
                     .resposta1(pesquisaDTO.getResposta1())
                     .resposta2(pesquisaDTO.getResposta2())
                     .resposta3(pesquisaDTO.getResposta3())
@@ -80,8 +98,6 @@ public class QuestionarioController {
                     .build();
 
             Pesquisa newPesquisa = pesquisaRepository.save(pesquisa);
-
-            System.out.println(newPesquisa.toString());
 
             return new ModelAndView("redirect:/resultado");
         }

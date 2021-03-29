@@ -14,15 +14,15 @@ import javax.validation.constraints.NotNull;
 public class PesquisaDTO {
 
     @NotNull
-    private RespostaPesquisa resposta1;
+    private String resposta1;
     @NotNull
-    private RespostaPesquisa resposta2;
+    private String resposta2;
     @NotNull
-    private RespostaPesquisa resposta3;
+    private String resposta3;
     @NotNull
-    private RespostaPesquisa resposta4;
+    private String resposta4;
     @NotNull
-    private RespostaPesquisa resposta5;
+    private String resposta5;
     @Min(1)
     private Integer idUsuario;
 }

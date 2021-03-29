@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class QtdPorCategoria {
-    private String categoria;
-    private Integer qtd;
+public class QuestoesChart {
+    private String enunciado;
+    private List<RespostasChart> respostas;
 }
