@@ -11,8 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class QuestoesChart {
-    private Integer id;
-    private String enunciado;
-    private List<RespostasChart> respostas;
+public class CategoriaChart {
+    private String categoria;
+    private List<QuestoesChart> questoes;
 }

@@ -28,10 +28,12 @@ public class RespostasPorQuestaoCategoriaService {
                 .findByCategoriaId(idCategoria);
 
         List<Resposta> resposta1 = respostasRepository
-                .findByQuestaoId(questoes.get(0).getId());
+                .findByQuestaoId(questoes
+                        .get(0).getId());
 
         List<Resposta> resposta2 = respostasRepository
-                .findByQuestaoId(questoes.get(1).getId());
+                .findByQuestaoId(questoes
+                        .get(1).getId());
 
         List<Resposta> resposta3 = respostasRepository
                 .findByQuestaoId(questoes.get(2).getId());
