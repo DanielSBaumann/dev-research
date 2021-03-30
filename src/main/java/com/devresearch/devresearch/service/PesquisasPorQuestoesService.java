@@ -9,6 +9,7 @@ import com.devresearch.devresearch.repository.Questoes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,55 +18,89 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PesquisasPorQuestoesService {
 
-    /**
-     * Objetivo é retornar aqui no fim
-     * uma lista do seguinte tipo :
-     * List<CategoriaChart>
-     * fazer passo a passo...
-     */
-
     @Autowired
     private Questoes questoesRepository;
 
     @Autowired
     private Pesquisas pesquisasRepository;
 
+    @Transactional
     public List<CategoriaChart> chart() {
-
-        List<Questao> questoesJR = questoesRepository
-                .findByCategoriaId(1);
-
-
-        return null;
+        List<CategoriaChart> chart = new ArrayList<>();
+        for (int i = 1; i < 4; i++) {
+            chart.add(categoriaChart(i));
+        }
+        return chart;
     }
 
-    /**
-     *
-     * Continuar daqui
-     * verificar retorno antes de utilizar
-     */
-    public List<Questao> questoesJR() {
+    @Transactional
+    public CategoriaChart categoriaChart(Integer idCategoria) {
+        switch (idCategoria) {
+            case 1: {
+                return categoriaChartJR();
+            }
+            case 2: {
+                return categoriaChartSR();
+            }
+            case 3: {
+                return categoriaChartRH();
+            }
+            default: {
+                return null;
+            }
+        }
+    }
 
-        List<Questao> questoesJR = questoesRepository
-                .findByCategoriaId(1);
+    public CategoriaChart categoriaChartJR() {
+        List<QuestoesChart> questoes = questoesERespostasPorCategoria(1);
+        CategoriaChart chart = CategoriaChart
+                .builder()
+                .categoria("JR")
+                .questoes(questoes)
+                .build();
+        return chart;
+    }
 
+    public CategoriaChart categoriaChartSR() {
+        List<QuestoesChart> questoes = questoesERespostasPorCategoria(2);
+        CategoriaChart chart = CategoriaChart
+                .builder()
+                .categoria("SR")
+                .questoes(questoes)
+                .build();
+        return chart;
+    }
+
+    public CategoriaChart categoriaChartRH() {
+        List<QuestoesChart> questoes = questoesERespostasPorCategoria(3);
+        CategoriaChart chart = CategoriaChart
+                .builder()
+                .categoria("RH")
+                .questoes(questoes)
+                .build();
+        return chart;
+    }
+
+    @Transactional
+    public List<QuestoesChart> questoesERespostasPorCategoria(Integer idCategoria) {
+        List<Questao> questoes = questoesRepository
+                .findByCategoriaId(idCategoria);
         List<QuestoesChart> qc = new ArrayList<>();
-
-        questoesJR.forEach(item -> {
-
+        for (int i = 0; i < questoes.size(); i++) {
+            List<RespostasChart> respostasChart = respostaPorNumeroQuestao(i + 1, idCategoria);
             QuestoesChart questao = QuestoesChart
                     .builder()
-                    .id(item.getId())
-                    .enunciado(item.getEnunciado())
-                    .respostas(null)
+                    .id(questoes.get(i).getId())
+                    .enunciado(questoes.get(i).getEnunciado())
+                    .respostas(respostasChart)
                     .build();
-
-        });
-
-
-        return null;
+            qc.add(questao);
+        }
+        return qc;
     }
 
+
+    @Transactional
     public List<RespostasChart> respostaPorNumeroQuestao(Integer questao, Integer idCategoria) {
         switch (questao) {
             case 1: {
@@ -83,13 +118,14 @@ public class PesquisasPorQuestoesService {
             case 5: {
                 return respostasQuestao5(idCategoria);
             }
-            default:{
-                return  null;
+            default: {
+                return null;
             }
         }
     }
 
 
+    @Transactional
     public List<RespostasChart> respostasQuestao1(Integer idCategoria) {
         List<Object[]> list = pesquisasRepository
                 .qtdRespostas1(idCategoria);
@@ -105,6 +141,7 @@ public class PesquisasPorQuestoesService {
         return respostas;
     }
 
+    @Transactional
     public List<RespostasChart> respostasQuestao2(Integer idCategoria) {
         List<Object[]> list = pesquisasRepository
                 .qtdRespostas2(idCategoria);
@@ -120,6 +157,7 @@ public class PesquisasPorQuestoesService {
         return respostas;
     }
 
+    @Transactional
     public List<RespostasChart> respostasQuestao3(Integer idCategoria) {
         List<Object[]> list = pesquisasRepository
                 .qtdRespostas3(idCategoria);
@@ -135,6 +173,7 @@ public class PesquisasPorQuestoesService {
         return respostas;
     }
 
+    @Transactional
     public List<RespostasChart> respostasQuestao4(Integer idCategoria) {
         List<Object[]> list = pesquisasRepository
                 .qtdRespostas4(idCategoria);
@@ -150,6 +189,7 @@ public class PesquisasPorQuestoesService {
         return respostas;
     }
 
+    @Transactional
     public List<RespostasChart> respostasQuestao5(Integer idCategoria) {
         List<Object[]> list = pesquisasRepository
                 .qtdRespostas5(idCategoria);

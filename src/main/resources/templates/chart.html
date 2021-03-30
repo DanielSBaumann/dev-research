@@ -7,9 +7,11 @@
 
     <header th:replace="~{fragment :: header}"></header>
 
-    <div 
-        id="chart-usuarios" 
-        style="width: 94%; height: 30vh;margin: 4vh auto;border: solid 1px #ccc;"></div>
+    <div id="chart-usuarios" style="width: 94%; height: 30vh;margin: 4vh auto;border: solid 1px #ccc;"></div>
+
+    <div id="jr">
+        <div id="q1-jr"></div>
+    </div>
 
     <div class="container mt-5" style="font-size: .8em;">
         <p class="card-text">Devloped by <a href="https://github.com/DanielSBaumann">Daniel Baumann</a></p>
@@ -53,11 +55,11 @@
         google
             .charts
             .load('current', { 'packages': ['corechart'] })
-            .then(drawChart);
+            .then(drawChartCategoria);
 
         //google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
+        function drawChartCategoria() {
             const container = document.querySelector('#chart-usuarios')
             const data = new google.visualization.arrayToDataTable([
                 ['Categoria', 'Quantidade'],
@@ -70,6 +72,45 @@
             }
             const chart = new google.visualization.PieChart(container)
             chart.draw(data, options)
+            
+        }
+
+        function drawChartCategoria2() {
+            /*const container = document.querySelector('#chart-usuarios')*/
+
+            const data = new google.visualization.Query(categoria);
+            data.send(processData);
+
+            /*
+            const data = new google.visualization.arrayToDataTable([
+                ['Categoria', 'Quantidade'],
+                [categoria[0].categoria, categoria[0].qtd],
+                [categoria[1].categoria, categoria[1].qtd],
+                [categoria[2].categoria, categoria[2].qtd]
+            ])
+            */
+
+            function processData(dataChart) {
+
+                const options = {
+                    title: 'Categorias da pesquisa'
+                }
+
+                let table = dataChart.getDataTable();
+
+                const container = document.querySelector('#chart-usuarios')
+
+                const chart = new google.visualization.PieChart(container)
+                chart.draw(table, options)
+
+            }
+            /*
+            const options = {
+                title: 'Categorias da pesquisa'
+            }
+            const chart = new google.visualization.PieChart(container)
+            chart.draw(data, options)
+            */
         }
 
         /**
@@ -88,7 +129,57 @@
                    drawChart1();
                    drawChart2();
            });
-         */ 
+         */
+
+        $.ajax({
+            url: '/chart',
+            type: 'POST',
+            success: function (responseText) {
+                console.log('Teste Objeto para montagem dos charts')
+                //console.log(responseText)
+                console.log(JSON.parse(responseText))
+            },
+            error: function () {
+                console.log('falha ao utilizar contador');
+            }
+        });
+
+        /**
+         *
+         *
+         * google
+        .charts
+        .load('current', {'packages':['bar']})
+        .then(drawStuff);
+
+      function drawStuff() {
+        var data = new google.visualization.arrayToDataTable([
+          ['Opening Move', 'Percentage'],
+          ["King's pawn (e4)", 44],
+          ["Queen's pawn (d4)", 31],
+          ["Knight to King 3 (Nf3)", 12],
+          ["Queen's bishop pawn (c4)", 10],
+          ['Other', 3]
+        ]);
+
+        var options = {
+          title: 'Chess opening moves',
+          width: 360,
+          legend: { position: 'none' },
+          chart: { title: 'Chess opening moves',
+                   subtitle: 'popularity by percentage' },
+          bars: 'horizontal', // Required for Material Bar Charts.
+          axes: {
+            x: {
+              0: { side: 'top', label: 'Percentage'} // Top x-axis.
+            }
+          },
+          bar: { groupWidth: "90%" }
+        };
+        var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+        chart.draw(data, options);
+      };
+         */
 
     </script>
 
