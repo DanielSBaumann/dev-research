@@ -1,0 +1,115 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment :: head('Home')}"></head>
+
+<body>
+
+    <header th:replace="~{fragment :: header}"></header>
+
+    <div id="chart-usuarios" style="width: 94%; height: 30vh;margin: 4vh auto;border: solid 1px #ccc;"></div>
+
+    <div id="jr">
+        <div id="q1-jr"></div>
+    </div>
+
+    <div class="container mt-5" style="font-size: .8em;">
+        <p class="card-text">Devloped by <a href="https://github.com/DanielSBaumann">Daniel Baumann</a></p>
+    </div>
+
+    <!--JQUERY-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/contador',
+                type: 'POST',
+                success: function (responseText) {
+                    $("#contador-pesquisas").val(responseText);
+                },
+                error: function () {
+                    console.log('falha ao utilizar contador');
+                }
+            });
+        });
+    </script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        let categoria;
+        $.ajax({
+            url: '/qtdporcategoria',
+            type: 'POST',
+            success: function (responseText) {
+                console.log(responseText)
+                categoria = JSON.parse(responseText)
+            },
+            error: function () {
+            }
+        });
+
+        google
+            .charts
+            .load('current', { 'packages': ['corechart'] })
+            .then(drawChartCategoria);
+
+        //google.charts.setOnLoadCallback(drawChart);
+
+        function drawChartCategoria() {
+            const container = document.querySelector('#chart-usuarios')
+            const data = new google.visualization.arrayToDataTable([
+                ['Categoria', 'Quantidade'],
+                [categoria[0].categoria, categoria[0].qtd],
+                [categoria[1].categoria, categoria[1].qtd],
+                [categoria[2].categoria, categoria[2].qtd]
+            ])
+            const options = {
+                title: 'Categorias da pesquisa'
+            }
+            const chart = new google.visualization.PieChart(container)
+            chart.draw(data, options)
+
+        }
+
+        function drawChartCategoria2() {
+
+            const data = new google.visualization.Query(categoria);
+            data.send(processData);
+
+            function processData(dataChart) {
+
+                const options = {
+                    title: 'Categorias da pesquisa'
+                }
+
+                let table = dataChart.getDataTable();
+
+                const container = document.querySelector('#chart-usuarios')
+
+                const chart = new google.visualization.PieChart(container)
+                chart.draw(table, options)
+
+            }
+        }
+
+        $.ajax({
+            url: '/chart',
+            type: 'POST',
+            success: function (responseText) {
+                console.log(JSON.parse(responseText))
+            },
+            error: function () {
+                console.log('falha ao montar charts de pesquisa');
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

@@ -7,20 +7,89 @@
 
     <header th:replace="~{fragment :: header}"></header>
 
-    <div id="chart-usuarios" style="width: 94%; height: 30vh;margin: 4vh auto;border: solid 1px #ccc;"></div>
+    <div class="container">
 
-    <div id="jr">
-        <div id="q1-jr"></div>
+        <div id="div-nav" class="mt-4 mb-3">
+            <div id="chart-usuarios" style="border: solid 1px #ccc;"></div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Pesquisas</h5>
+                    <p class="card-text">Quantidade de pessoas que realizaram a pesquisa.</p>
+                    <input type="button" value="0" class="btn btn-primary btn-lg" id="contador-pesquisas">
+                </div>
+            </div>
+        </div>
+
+        <div id="accordion" class="mt-5 mb-3">
+
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            Pesquisa Dev Jr.
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div id="jr"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                            aria-expanded="false" aria-controls="collapseTwo">
+                            Pesquisa Dev Jedi
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        <div id="sr"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="false" aria-controls="collapseThree">
+                            Pesquisa Tech Recruiter
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <div id="rh"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container mt-5 mb-3" style="font-size: .8em;">
+            <p class="card-text">Devloped by <a href="https://github.com/DanielSBaumann">Daniel Baumann</a></p>
+        </div>
+
     </div>
 
-    <div class="container mt-5" style="font-size: .8em;">
-        <p class="card-text">Devloped by <a href="https://github.com/DanielSBaumann">Daniel Baumann</a></p>
-    </div>
-
-    <!--JQUERY-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
+
+        /*Contador*/
         $(document).ready(function () {
             $.ajax({
                 url: '/contador',
@@ -33,33 +102,34 @@
                 }
             });
         });
-    </script>
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-        crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+        /*Contador*/
 
-        let categoria;
+        /*Chart categoria*/
         $.ajax({
             url: '/qtdporcategoria',
             type: 'POST',
             success: function (responseText) {
-                categoria = JSON.parse(responseText)
+                chartCategoria(JSON.parse(responseText));
             },
             error: function () {
             }
         });
 
-        google
-            .charts
-            .load('current', { 'packages': ['corechart'] })
-            .then(drawChartCategoria);
+        function chartCategoria(cat) {
+            google
+                .charts
+                .load('current', { 'packages': ['corechart'] });
+            google
+                .charts
+                .setOnLoadCallback(
+                    function () {
+                        drawChartCategoria(cat);
+                    }
+                );
 
-        //google.charts.setOnLoadCallback(drawChart);
+        }
 
-        function drawChartCategoria() {
+        function drawChartCategoria(categoria) {
             const container = document.querySelector('#chart-usuarios')
             const data = new google.visualization.arrayToDataTable([
                 ['Categoria', 'Quantidade'],
@@ -71,115 +141,74 @@
                 title: 'Categorias da pesquisa'
             }
             const chart = new google.visualization.PieChart(container)
-            chart.draw(data, options)
-            
+            chart.draw(data, options);
         }
+        /*Chart categoria*/
 
-        function drawChartCategoria2() {
-            /*const container = document.querySelector('#chart-usuarios')*/
-
-            const data = new google.visualization.Query(categoria);
-            data.send(processData);
-
-            /*
-            const data = new google.visualization.arrayToDataTable([
-                ['Categoria', 'Quantidade'],
-                [categoria[0].categoria, categoria[0].qtd],
-                [categoria[1].categoria, categoria[1].qtd],
-                [categoria[2].categoria, categoria[2].qtd]
-            ])
-            */
-
-            function processData(dataChart) {
-
-                const options = {
-                    title: 'Categorias da pesquisa'
-                }
-
-                let table = dataChart.getDataTable();
-
-                const container = document.querySelector('#chart-usuarios')
-
-                const chart = new google.visualization.PieChart(container)
-                chart.draw(table, options)
-
-            }
-            /*
-            const options = {
-                title: 'Categorias da pesquisa'
-            }
-            const chart = new google.visualization.PieChart(container)
-            chart.draw(data, options)
-            */
-        }
-
-        /**
-         * const options = {
-                title: 'Categorias da pesquisa',
-                height: 400,
-                width: 400
-            }
-         * 
-         * para mais de um grafico
-         * google.charts.setOnLoadCallback(drawChart1);
-           google.charts.setOnLoadCallback(drawChart2);
-        // OR
-           google.charts.setOnLoadCallback(
-               function() { // Anonymous function that calls drawChart1 and drawChart2
-                   drawChart1();
-                   drawChart2();
-           });
-         */
-
+        /*Charts de pesquisa*/
         $.ajax({
             url: '/chart',
             type: 'POST',
             success: function (responseText) {
-                console.log('Teste Objeto para montagem dos charts')
-                //console.log(responseText)
-                console.log(JSON.parse(responseText))
+                chartPesquisa(JSON.parse(responseText));
             },
             error: function () {
-                console.log('falha ao utilizar contador');
+                console.log('falha ao montar charts de pesquisa');
             }
         });
 
-        /**
-         *
-         *
-         * google
-        .charts
-        .load('current', {'packages':['bar']})
-        .then(drawStuff);
+        function chartPesquisa(pesquisa) {
+            let questoesJR = pesquisa[0].questoes;
+            let questoesSR = pesquisa[1].questoes;
+            let questoesRH = pesquisa[2].questoes;
 
-      function drawStuff() {
-        var data = new google.visualization.arrayToDataTable([
-          ['Opening Move', 'Percentage'],
-          ["King's pawn (e4)", 44],
-          ["Queen's pawn (d4)", 31],
-          ["Knight to King 3 (Nf3)", 12],
-          ["Queen's bishop pawn (c4)", 10],
-          ['Other', 3]
-        ]);
+            questoesJR.forEach(element => {
+                chart(element, "jr")
+            });
 
-        var options = {
-          title: 'Chess opening moves',
-          width: 360,
-          legend: { position: 'none' },
-          chart: { title: 'Chess opening moves',
-                   subtitle: 'popularity by percentage' },
-          bars: 'horizontal', // Required for Material Bar Charts.
-          axes: {
-            x: {
-              0: { side: 'top', label: 'Percentage'} // Top x-axis.
+            questoesSR.forEach(element => {
+                chart(element, "sr")
+            });
+
+            questoesRH.forEach(element => {
+                chart(element, "rh")
+            });
+        }
+
+        function chart(questao, cat) {
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(
+                function () {
+                    draw(questao.enunciado, questao.respostas, cat);
+                }
+            );
+        }
+
+        function draw(enunciado, respostas, categoria) {
+            let dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Resposta');
+            dataTable.addColumn('number', 'Qtd');
+
+            respostas.forEach(element => {
+                dataTable.addRow([element.resposta, element.qtdVezesRespondido]);
+            });
+
+            let options = {
+                title: enunciado,
+                height: 380,
+                width: 360
             }
-          },
-          bar: { groupWidth: "90%" }
-        };
-        var chart = new google.charts.Bar(document.getElementById('top_x_div'));
-        chart.draw(data, options);
-      };
-         */
+
+            $("#" + categoria).append("<div class='" + categoria + "-q'></div>");
+
+            let container = document.querySelector('.' + categoria + '-q:last-child')
+            let chart = new google.visualization.PieChart(container);
+            //PieChart
+            //ColumnChart
+            chart.draw(dataTable, options);
+        }
+        /*Charts de pesquisa*/
+
 
     </script>
 
