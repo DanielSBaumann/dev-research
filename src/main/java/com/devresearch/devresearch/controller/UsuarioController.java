@@ -37,10 +37,13 @@ public class UsuarioController {
 
     @PostMapping
     public ModelAndView create(@Valid UsuarioDTO usuarioDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || repository.existsByEmail(usuarioDTO.getEmail())) {
             System.out.println("COM ERRO\n" + usuarioDTO.toString());
             return new ModelAndView("usuario");
         }
+        /*else if (repository.existsByEmail(usuarioDTO.getEmail())) {
+            return new ModelAndView("usuario");
+        }*/
         System.out.println("SEM ERRO\n" + usuarioDTO.toString());
 
         Categoria categoria = categoriaRepository
@@ -53,6 +56,7 @@ public class UsuarioController {
                 .email(usuarioDTO.getEmail())
                 .categoria(categoria)
                 .build();
+
         Usuario newUser = repository.save(usuario);
 
         return new ModelAndView("redirect:/questionario/" + newUser.getId());
