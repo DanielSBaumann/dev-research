@@ -14,7 +14,7 @@
 <br>
 
 <p>
-  Pensando no mercado de trabalho da área de tecnologia, fiz essa pequena pesquisa , que tem três categorias , sendo Dev Jr. , Dev Jedi, e Tech Recruiter. O intuito foi entender as preferencias, e exibir a informação em forma de gráfico ,além de treinar minhas habilidades com relacionamentos entre tabelas, e query's um pouco mais complexas.
+  Pensando no mercado de trabalho da área de tecnologia, fiz essa pequena pesquisa com três categorias , sendo Dev Jr. , Dev Jedi, e Tech Recruiter. O intuito foi fazer algumas perguntas mais comuns,entender as preferencias, e exibir as informaçôes em forma de gráfico ,além de treinar minhas habilidades com relacionamentos entre tabelas, e query's um pouco mais complexas.
   Após o cadastro de nome e email, o usuário responde cinco questões, e em seguida vê os resultados das pesquisas .
 </p>
 
@@ -36,19 +36,13 @@
 
 ## 🚀 How to test
 
-<br>
-
-<p>🚧🚧🚧 Under construction!! 🚧🚧🚧</p>
-
-<br>
-
 <p>Disponível para teste no <a href="https://dsb-register.herokuapp.com/register">Heroku</a></p>
 
 <br>
 
 <br>
 
-<img src="" width="500" height="300" alt="gif-login"/>
+<img src="https://github.com/DanielSBaumann/dev-research/blob/main/src/main/resources/static/research.gif" width="500" height="300" alt="gif-login"/>
 
 <br>
 
